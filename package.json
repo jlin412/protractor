@@ -1,5 +1,5 @@
 {
-  "name": "protractor",
+  "name": "protractor-redbox",
   "description": "Webdriver E2E test wrapper for Angular.",
   "homepage": "https://github.com/angular/protractor",
   "keywords": [
@@ -53,5 +53,5 @@
     "start": "node testapp/scripts/web-server.js"
   },
   "license": "MIT",
-  "version": "2.5.0"
+  "version": "2.5.1"
 }
