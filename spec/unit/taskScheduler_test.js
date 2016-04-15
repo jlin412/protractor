@@ -1,5 +1,5 @@
-var TaskScheduler = require('../../lib/taskScheduler.js');
-var ConfigParser = require('../../lib/configParser');
+var TaskScheduler = require('../../built/taskScheduler').default;
+var ConfigParser = require('../../built/configParser').default;
 
 describe('the task scheduler', function() {
 
@@ -157,6 +157,27 @@ describe('the task scheduler', function() {
     var task = scheduler.nextTask();
     expect(task.capabilities.browserName).toEqual('chrome');
     expect(task.specs.length).toEqual(3);
+
+    task.done();
+    expect(scheduler.numTasksOutstanding()).toEqual(0);
+  });
+
+
+  it('should work with only capability-specific specs', function() {
+    var toAdd = {
+      specs: [
+      ],
+      multiCapabilities: [{
+        'browserName': 'chrome',
+        specs: 'spec/unit/data/fakespecC.js'
+      }]
+    };
+    var config = new ConfigParser().addConfig(toAdd).getConfig();
+    var scheduler = new TaskScheduler(config);
+
+    var task = scheduler.nextTask();
+    expect(task.capabilities.browserName).toEqual('chrome');
+    expect(task.specs.length).toEqual(1);
 
     task.done();
     expect(scheduler.numTasksOutstanding()).toEqual(0);

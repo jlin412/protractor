@@ -1,7 +1,25 @@
-var ConfigParser = require('../../lib/configParser');
+var ConfigParser = require('../../built/configParser').ConfigParser;
+var ConfigError = require('../../built/exitCodes').ConfigError;
 var path = require('path');
 
 describe('the config parser', function() {
+  it('should throw an error if the file is not found', function() {
+    var config = new ConfigParser();
+    try {
+      config.addFileConfig('foobar.js');
+    } catch (err) {
+      expect(err.code).toEqual(ConfigError.CODE);
+    }
+  });
+
+  it('should throw an error if the file does not have export config', function() {
+    var config = new ConfigParser();
+    try {
+      config.addFileConfig(path.resolve('./spec/environment.js'));
+    } catch (err) {
+      expect(err.code).toEqual(ConfigError.CODE);
+    }
+  });
 
   it('should have a default config', function() {
     var config = new ConfigParser().getConfig();
@@ -37,6 +55,22 @@ describe('the config parser', function() {
     var config = new ConfigParser().addConfig(toAdd).getConfig();
 
     expect(config.onPrepare).toEqual(path.normalize(process.cwd() + '/baz/qux.js'));
+  });
+
+  describe('getSpecs()', function() {
+    it('should return all the specs from "config.suites" if no other sources are provided', function() {
+      var config = {
+        specs: [],
+        suites: {
+          foo: 'foo.spec.js',
+          bar: 'bar.spec.js'
+        }
+      };
+
+      var specs = ConfigParser.getSpecs(config);
+
+      expect(specs).toEqual(['foo.spec.js', 'bar.spec.js']);
+    });
   });
 
   describe('resolving globs', function() {

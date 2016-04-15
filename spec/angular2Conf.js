@@ -1,4 +1,4 @@
-var env = require('./environment.js');
+var env = require('./environment');
 
 // This is the configuration for a smoke test for an Angular2 application.
 //
@@ -10,8 +10,6 @@ var env = require('./environment.js');
 // See https://github.com/angular/angular/blob/master/DEVELOPER.md for
 // setup instructions.
 //
-// TODO: when Angular2 is beta, include a test application in the
-// Protractor repository.
 exports.config = {
   seleniumAddress: env.seleniumAddress,
 
@@ -23,7 +21,7 @@ exports.config = {
 
   capabilities: env.capabilities,
 
-  baseUrl: 'http://localhost:8000',
+  baseUrl: env.baseUrl,
 
   // Special option for Angular2, to test against all Angular2 applications
   // on the page. This means that Protractor will wait for every app to be
