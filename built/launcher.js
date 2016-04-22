@@ -117,7 +117,8 @@ var initFn = function (configFile, additionalConfig) {
                 q.when(config.getMultiCapabilities(), function (multiCapabilities) {
                     config.multiCapabilities = multiCapabilities;
                     config.capabilities = null;
-                }).then(function (resolve) { });
+                    resolve();
+                });
             }
             else {
                 resolve();
