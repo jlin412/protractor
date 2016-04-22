@@ -52,12 +52,12 @@
   },
   "main": "built/protractor.js",
   "scripts": {
-    "prepublish": "gulp prepublish",
-    "pretest": "gulp pretest",
-    "start": "node testapp/scripts/web-server.js",
-    "test": "node scripts/test.js",
-    "tsc": "./node_modules/typescript/bin/tsc",
-    "tsc:w": "./node_modules/typescript/bin/tsc -w"
+    "_prepublish": "gulp prepublish",
+    "_pretest": "gulp pretest",
+    "_start": "node testapp/scripts/web-server.js",
+    "_test": "node scripts/test.js",
+    "_tsc": "./node_modules/typescript/bin/tsc",
+    "_tsc:w": "./node_modules/typescript/bin/tsc -w"
   },
   "license": "MIT",
   "version": "3.3.0"
