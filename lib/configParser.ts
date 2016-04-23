@@ -1,8 +1,10 @@
 import * as path from 'path';
 import * as glob from 'glob';
 
-import * as Logger from './logger';
+import {Logger} from './logger2';
 import {ConfigError} from './exitCodes';
+
+let logger = new Logger('configParser');
 
 // Coffee is required here to enable config files written in coffee-script.
 try {
@@ -39,8 +41,39 @@ export interface Config {
   suite?: string;
   suites?: any;
   troubleshoot?: boolean;
-  exclude?: Array<string>| string;
+  exclude?: Array<string>|string;
   maxSessions?: number;
+  seleniumAddress?: string;
+  webDriverProxy?: string;
+  disableEnvironmentOverrides?: boolean;
+  browserstackUser?: string;
+  browserstackKey?: string;
+  firefoxPath?: string;
+  seleniumServerJar?: string;
+  seleniumPort?: number;
+  localSeleniumStandaloneOpts?: {args?: any; port?: any;};
+  sauceAgent?: string;
+  sauceBuild?: string;
+  sauceKey?: string;
+  sauceSeleniumAddress?: string;
+  sauceUser?: string;
+  v8Debug?: any;
+  nodeDebug?: boolean;
+  directConnect?: boolean;
+  mockSelenium?: boolean;
+  baseUrl?: string;
+  untrackOutstandingTimeouts?: any;
+  debuggerServerPort?: number;
+  useAllAngular2AppRoots?: boolean;
+  frameworkPath?: string;
+  restartBrowserBetweenTests?: boolean;
+  onPrepare?: any;
+  beforeLaunch?: any;
+  getMultiCapabilities?: any;
+  elementExplorer?: any;
+  afterLaunch?: any;
+  debug?: boolean;
+  resultJsonOutputFile?: any;
 }
 
 export class ConfigParser {
@@ -75,7 +108,7 @@ export class ConfigParser {
    * @return {Array} The resolved file paths.
    */
   public static resolveFilePatterns(
-      patterns: Array<string>| string, opt_omitWarnings?: boolean,
+      patterns: Array<string>|string, opt_omitWarnings?: boolean,
       opt_relativeTo?: string): Array<string> {
     let resolvedFiles: Array<string> = [];
     let cwd = opt_relativeTo || process.cwd();
@@ -86,7 +119,7 @@ export class ConfigParser {
       for (let fileName of patterns) {
         let matches = glob.sync(fileName, {cwd});
         if (!matches.length && !opt_omitWarnings) {
-          Logger.warn('pattern ' + fileName + ' did not match any files.');
+          logger.warn('pattern ' + fileName + ' did not match any files.');
         }
         for (let match of matches) {
           let resolvedPath = path.resolve(cwd, match);
@@ -106,9 +139,9 @@ export class ConfigParser {
     let specs: Array<string> = [];
     if (config.suite) {
       config.suite.split(',').forEach((suite) => {
-        let suiteList = config.suites[suite];
+        let suiteList = config.suites ? config.suites[suite] : null;
         if (suiteList == null) {
-          throw new Error('Unknown test suite: ' + suite);
+          throw new ConfigError(logger, 'Unknown test suite: ' + suite);
         }
         union(specs, makeArray(suiteList));
       });
@@ -163,10 +196,12 @@ export class ConfigParser {
     try {
       fileConfig = require(filePath).config;
     } catch (e) {
-      throw new ConfigError('failed loading configuration file ' + filename)
+      throw new ConfigError(
+          logger, 'failed loading configuration file ' + filename);
     }
     if (!fileConfig) {
       throw new ConfigError(
+          logger,
           'configuration file ' + filename + ' did not export a config object');
     }
     fileConfig.configDir = path.dirname(filePath);
