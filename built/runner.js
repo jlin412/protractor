@@ -10,7 +10,8 @@ var events_1 = require('events');
 var helper = require('./util');
 var logger2_1 = require('./logger2');
 var driverProviders_1 = require('./driverProviders');
-var protractor = require('./protractor'), webdriver = require('selenium-webdriver'), Plugins = require('./plugins');
+var plugins_1 = require('./plugins');
+var protractor = require('./protractor'), webdriver = require('selenium-webdriver');
 var logger = new logger2_1.Logger('runner');
 /*
  * Runner is responsible for starting the execution of a test run and triggering
@@ -34,7 +35,6 @@ var Runner = (function (_super) {
          * @param {int} Standard unix exit code
          */
         this.exit_ = function (exitCode) {
-            console.log('ran the default exit');
             return helper
                 .runFilenameOrFn_(this.config_.configDir, this.config_.onCleanUp, [exitCode])
                 .then(function (returned) {
@@ -240,7 +240,7 @@ var Runner = (function (_super) {
     Runner.prototype.run = function () {
         var _this = this;
         var testPassed;
-        var plugins = new Plugins(this.config_);
+        var plugins = new plugins_1.Plugins(this.config_);
         var pluginPostTestPromises;
         var browser_;
         var results;

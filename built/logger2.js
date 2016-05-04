@@ -160,7 +160,7 @@ var Logger = (function () {
             consoleLog += Logger.id_(logLevel, this.id, WriteTo.CONSOLE);
             fileLog += Logger.id_(logLevel, this.id, WriteTo.FILE);
         }
-        consoleLog += ' - ';
+        consoleLog += ' -';
         fileLog += ' - ';
         switch (Logger.writeTo) {
             case WriteTo.CONSOLE:

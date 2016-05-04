@@ -1,6 +1,7 @@
 "use strict";
 var os = require('os');
-var Logger = require('./logger');
+var logger2_1 = require('./logger2');
+var logger = new logger2_1.Logger('testLogger');
 var TaskLogger = (function () {
     /**
      * Log output such that metadata are appended.
@@ -36,9 +37,9 @@ var TaskLogger = (function () {
     TaskLogger.prototype.flush = function () {
         if (this.buffer) {
             // Flush buffer if nonempty
-            Logger.print(os.EOL + '------------------------------------' + os.EOL);
-            Logger.print(this.buffer);
-            Logger.print(os.EOL);
+            logger.info(os.EOL + '------------------------------------' + os.EOL);
+            logger.info(this.buffer);
+            logger.info(os.EOL);
             this.buffer = '';
         }
     };

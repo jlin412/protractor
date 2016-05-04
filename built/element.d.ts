@@ -1,3 +1,4 @@
+import { Protractor } from './protractor';
 /**
  * ElementArrayFinder is used for operations on an array of elements (as opposed
  * to a single element).
@@ -56,7 +57,7 @@ export declare class ElementArrayFinder {
     private locator_;
     actionResults_: webdriver.Promise;
     getWebElements: Function;
-    constructor(ptor_: any, getWebElements: Function, locator_: any, actionResults_?: webdriver.Promise);
+    constructor(ptor_: Protractor, getWebElements?: Function, locator_?: any, actionResults_?: webdriver.Promise);
     /**
      * Create a shallow copy of ElementArrayFinder.
      *

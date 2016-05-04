@@ -75,7 +75,7 @@ var DriverProvider = (function () {
      */
     DriverProvider.prototype.teardownEnv = function () {
         var _this = this;
-        return q.all(this.drivers_.map(function () { return _this.quitDriver.bind(_this); }));
+        return q.all(this.drivers_.map(function (driver) { return _this.quitDriver(driver); }));
     };
     return DriverProvider;
 }());

@@ -8,7 +8,6 @@ var child_process = require('child_process');
 var events_1 = require('events');
 var q = require('q');
 var configParser_1 = require('./configParser');
-var Logger = require('./logger');
 var runner_1 = require('./runner');
 var taskLogger_1 = require('./taskLogger');
 /**
@@ -61,10 +60,10 @@ var TaskRunner = (function (_super) {
                 .on('message', function (m) {
                 switch (m.event) {
                     case 'testPass':
-                        Logger.print('.');
+                        process.stdout.write('.');
                         break;
                     case 'testFail':
-                        Logger.print('F');
+                        process.stdout.write('F');
                         break;
                     case 'testsDone':
                         runResults.failedCount = m.results.failedCount;

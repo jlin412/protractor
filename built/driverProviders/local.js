@@ -105,11 +105,11 @@ var Local = (function (_super) {
      *     is down.
      */
     Local.prototype.teardownEnv = function () {
-        var self = this;
+        var _this = this;
         var deferred = q.defer();
-        driverProvider_1.DriverProvider.prototype.teardownEnv.call(this).then(function () {
+        _super.prototype.teardownEnv.call(this).then(function () {
             logger.info('Shutting down selenium standalone server.');
-            self.server_.stop().then(function () { deferred.resolve(); });
+            _this.server_.stop().then(function () { deferred.resolve(); });
         });
         return deferred.promise;
     };

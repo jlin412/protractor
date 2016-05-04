@@ -5,9 +5,10 @@ import * as helper from './util';
 import {Config} from './configParser';
 import {Logger} from './logger2';
 import {AttachSession, BrowserStack, Direct, Hosted, Local, Mock, Sauce} from './driverProviders';
+import {Plugins} from './plugins';
 
 var protractor = require('./protractor'),
-    webdriver = require('selenium-webdriver'), Plugins = require('./plugins');
+    webdriver = require('selenium-webdriver');
 
 let logger = new Logger('runner');
 /*
@@ -116,7 +117,6 @@ export class Runner extends EventEmitter {
    */
   exit_ = function(exitCode: number):
       any {
-        console.log('ran the default exit');
         return helper
             .runFilenameOrFn_(
                 this.config_.configDir, this.config_.onCleanUp, [exitCode])
