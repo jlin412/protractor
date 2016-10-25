@@ -69,7 +69,7 @@ var binaries = {
     },
     suffix: function() {
       if (os.type() == 'Darwin') {
-        return 'mac32.zip';
+        return 'mac64.zip';
       } else if (os.type() == 'Linux') {
         if (os.arch() == 'x64') {
           return 'linux64.zip';
